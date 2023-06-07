@@ -46,24 +46,13 @@ public class HelloService implements Greeter {
     @Override
     public Uni<HelloReply> sayHelloOnce(Multi<HelloRequest> helloRequest) {
 
-/*
-        return Uni.createFrom().item(
-                HelloReply.newBuilder().setMessage(
-                    helloRequest.map(helloRequest1 -> {
-                        return helloRequest1.getName();
-                    }).collect().asList().onItem().transform(names -> {
-                        return String.join(", ", names);
-                    }).toString()
-        ).build());
-*/            String s = helloRequest
-                .map(HelloRequest::getName)
-                .collect()
-                .asList()
-                .map(strings -> {
-                    return String.join(", ", strings);
-                }).toString();
-        HelloReply hr = HelloReply.newBuilder().setMessage(s).build();
-        return Uni.createFrom().item(hr);
+        return helloRequest.onItem().transform(item -> {
+            return item.getName();
+        }).collect().asList().map(names -> {
+            return String.join(", ", names.toString());
+        }).onItem().transform(result -> {
+            return HelloReply.newBuilder().setMessage(result).build();
+        });
 
     }
 

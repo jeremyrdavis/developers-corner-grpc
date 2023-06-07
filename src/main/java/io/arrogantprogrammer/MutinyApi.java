@@ -39,18 +39,23 @@ public class MutinyApi {
     @GET
     public Uni<String> multiNames(@QueryParam("names") List<String> names) throws ExecutionException, InterruptedException {
 
-        List<HelloRequest> replies = names.stream().map(n -> {
-             return HelloRequest.newBuilder().setName(n).build();
-        }).collect(Collectors.toList());
         Multi<HelloRequest> requests = Multi.createFrom().items(
                 names.stream().map(n -> {
                     return HelloRequest.newBuilder().setName(n).build();
         }));
 
-        return hello.sayHelloOnce(requests).map(helloReply -> {
-            System.out.println(helloReply.getMessage());
-            return helloReply.getMessage();
-        });
+//        String s = hello.sayHelloOnce(requests).map(helloReply -> {
+//            System.out.println(helloReply.getMessage());
+//            return helloReply.getMessage();
+//        }).subscribe().toString();
+//        System.out.println(s);
+//        return Uni.createFrom().item(hello.sayHelloOnce(requests).map(helloReply -> {
+//            System.out.println(helloReply.getMessage());
+//            return helloReply.getMessage();
+//        }).subscribeAsCompletionStage().get());
+
+        return hello.sayHelloOnce(requests)
+                .onItem().transform(HelloReply::getMessage);
     }
 
 }
