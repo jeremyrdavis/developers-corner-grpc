@@ -49,7 +49,10 @@ public class HelloService implements Greeter {
         return helloRequest.onItem().transform(item -> {
             return item.getName();
         }).collect().asList().map(names -> {
-            return String.join(", ", names.toString());
+            return new StringBuilder("Hello, ")
+                    .append(
+                    String.join(", ", names.toString()))
+                    .append("!").toString();
         }).onItem().transform(result -> {
             return HelloReply.newBuilder().setMessage(result).build();
         });
