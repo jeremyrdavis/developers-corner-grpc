@@ -51,7 +51,7 @@ public class HelloService implements Greeter {
         }).collect().asList().map(names -> {
             return new StringBuilder("Hello, ")
                     .append(
-                    String.join(", ", names.toString()))
+                    String.join(", ", names))
                     .append("!").toString();
         }).onItem().transform(result -> {
             return HelloReply.newBuilder().setMessage(result).build();
