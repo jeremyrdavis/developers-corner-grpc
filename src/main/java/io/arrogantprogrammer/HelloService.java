@@ -6,12 +6,16 @@ import io.quarkus.example.HelloRequest;
 import io.quarkus.grpc.GrpcService;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
 
 @GrpcService
 public class HelloService implements Greeter {
+
+    static final Logger LOGGER = LoggerFactory.getLogger(HelloService.class);
 
     List<String> pre = Arrays.asList(
             "Hello, ",
