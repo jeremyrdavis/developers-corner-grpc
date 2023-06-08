@@ -13,6 +13,7 @@ service Greeter {
   rpc SayHello (HelloRequest) returns (HelloReply) {}
   rpc SayHelloAFewTimes (HelloRequest) returns (stream HelloReply) {}
   rpc SayHelloOnce (stream HelloRequest) returns (HelloReply) {}
+  rpc SayHelloStreaming (stream HelloRequest) returns (stream HelloReply) {}
 }
 
 // The request message containing the user's name.

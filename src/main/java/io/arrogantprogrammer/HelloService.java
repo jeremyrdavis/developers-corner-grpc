@@ -63,4 +63,15 @@ public class HelloService implements Greeter {
 
     }
 
+    @Override
+    public Multi<HelloReply> sayHelloStreaming(Multi<HelloRequest> request) {
+
+        return request
+                .map(HelloRequest::getName)
+                .map(s -> {
+                    return "Hello, " + s + "!  How do you like the stream?";
+                })
+                .onItem().transform(message -> HelloReply.newBuilder().setMessage(message).build());
+    }
+
 }
